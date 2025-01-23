@@ -7,6 +7,16 @@ import matplotlib.pyplot as plt
 
 NUM_CLASSES = 6
 
+# label:color_rgb:parts:actions
+# [0] background:0,0,0::
+# [1] garbage:255,53,94::
+# [2] ground:245,147,49::
+# [3] robot:51,221,255::
+# [4] sea:61,61,245::
+# [5] ship:250,250,55::
+
+
+
 def infer(model, image_tensor):
     predictions = model.predict(np.expand_dims((image_tensor), axis=0))
     predictions = np.squeeze(predictions)
@@ -27,7 +37,6 @@ def decode_segmentation_masks(mask, colormap, n_classes):
         b[idx] = colormap[i, 2]
     rgb = np.stack([r,g,b], axis=2)
     return rgb
-
 
 def get_overlay(image, colored_mask):
     image = tf.keras.preprocessing.image.array_to_img(image)
@@ -57,7 +66,6 @@ def plot_predictions(images_list, colormap, model):
         plot_samples_matplotlib([image_tensor, overlay, prediction_colormap], count, figsize=(18, 14))
         count += 1
 
-
 def create_colormap(labelmap_path):
     colormap = []
     with open(labelmap_path, 'r') as file:
@@ -68,6 +76,12 @@ def create_colormap(labelmap_path):
             parts = line.split(':')
             rgb = tuple(map(int, parts[1].split(',')))  # RGB 값 추출
             colormap.append(rgb)
-    return np.array(colormap, dtype=np.uint8)  # NumPy 배열로 변환
+    
+    # NumPy 배열로 변환
+    result = np.array(colormap, dtype=np.uint8)
+    print("Colormap shape:", result.shape)
+    print("Colormap values:", result[:NUM_CLASSES])
+
+    return result 
         
 
