@@ -1,5 +1,5 @@
 from Module.TrainMethods import data_generator, read_image, train
-from Module.GarbageDetectMethods import plot_random_predictions
+from Module.GarbageDetectMethods import plot_random_predictions, calculate_accuracy_from_dataset
 from Module.InferMethods import create_colormap
 from Module.ProcessingMethods import display_images_and_masks, validate_count_of_images_and_masks, validate_mask_classes
 from tensorflow import keras
@@ -11,7 +11,6 @@ NUM_CLASSES = 6
 DATA_DIR = "./Data/TrainDataSet"
 NUM_TRAIN_IMAGES = 669
 NUM_VAL_IMAGES = 50
-
 
 
 def main():    
@@ -35,7 +34,7 @@ def main():
     # validate_mask_classes(val_dataset)
 
     # 배치 사이즈 만큼 무작위로 사진과 마스크 출력
-    display_images_and_masks(train_dataset)
+    # display_images_and_masks(train_dataset)
     
     # [1] 학습  
     # model = train(train_dataset, val_dataset)
@@ -44,10 +43,11 @@ def main():
     model = keras.models.load_model('model_2025-01-21 16:53:49.h5')
 
     # [3] 컬러맵 생성 
-    colormap = create_colormap(label_path)    
+    # colormap = create_colormap(label_path)    
     
     # [4] 추론
-    plot_random_predictions(train_images, colormap, model=model)    
+    # plot_random_predictions(train_images, colormap, model=model)    
+    calculate_accuracy_from_dataset(train_dataset, model)
     
 
 if __name__ == '__main__':
