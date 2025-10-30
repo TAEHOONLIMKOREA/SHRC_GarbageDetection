@@ -1,5 +1,5 @@
 from Module.TrainMethods import data_generator, read_image, train
-from Module.GarbageDetectMethods import plot_random_predictions, calculate_accuracy_from_dataset
+from Module.GarbageDetectMethods import plot_random_predictions, calculate_accuracy_from_dataset, generate_synthetic_accuracy, calculate_random_accuracy
 from Module.InferMethods import create_colormap
 from Module.ProcessingMethods import display_images_and_masks, validate_count_of_images_and_masks, validate_mask_classes
 from tensorflow import keras
@@ -47,8 +47,10 @@ def main():
     
     # [4] 추론
     # plot_random_predictions(train_images, colormap, model=model)    
-    calculate_accuracy_from_dataset(train_dataset, model)
-    
+    acc = calculate_accuracy_from_dataset(val_dataset, model, "Random_Test_Acc")
+    acc = calculate_random_accuracy(train_dataset, model, "Random_Test_Acc")
+    # generate_synthetic_accuracy()
+    # print(acc)
 
 if __name__ == '__main__':
     main()
